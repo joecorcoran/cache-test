@@ -1,0 +1,10 @@
+dist: trusty
+sudo: false
+language: cpp
+services: docker
+env:
+  - FOO=one
+  - FOO=two
+script:
+  - docker build -t $FOO --cache-from joecorcoran/cache-test:latest
+  - docker run -it $FOO curl
