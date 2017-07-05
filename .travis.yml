@@ -5,6 +5,9 @@ services: docker
 env:
   - FOO=one
   - FOO=two
+before_script:
+  - docker pull joecorcoran/cache-test:latest
 script:
-  - docker build -t $FOO --cache-from joecorcoran/cache-test:latest
+  - docker build -t $FOO --cache-from joecorcoran/cache-test:latest .
   - docker run -it $FOO curl
+  - echo "Done"
