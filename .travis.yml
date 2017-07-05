@@ -8,6 +8,6 @@ before_script:
   - docker pull $IMG:latest
 script:
   - docker build --cache-from $IMG:latest --tag $IMG:$TRAVIS_COMMIT --tag $IMG:latest .
-  - docker run --rm -it $FOO curl -i https://google.com
+  - docker run --rm -it $IMG:$TRAVIS_COMMIT curl -i https://google.com
 after_success:
   - docker push $IMG:latest
