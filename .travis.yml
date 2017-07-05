@@ -2,12 +2,12 @@ dist: trusty
 sudo: false
 language: cpp
 services: docker
-env:
-  - FOO=one
-  - FOO=two
+env: IMG=joecorcoran/cache-test
 before_script:
-  - docker pull joecorcoran/cache-test:latest
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker pull $IMG:latest
 script:
-  - docker build -t $FOO --cache-from joecorcoran/cache-test:latest .
-  - docker run -it $FOO curl
-  - echo "Done"
+  - docker build --cache-from $IMG:latest --tag $IMG:$TRAVIS_COMMIT --tag $IMG:latest .
+  - docker run --rm -it $FOO curl -i https://google.com
+after_success:
+  - docker push $IMG:latest
